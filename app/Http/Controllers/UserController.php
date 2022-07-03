@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Flashdata;
+use App\Http\Requests\Users\{CreateUserRequest, UpdateUserRequest};
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -25,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.users.create');
     }
 
     /**
@@ -34,9 +36,11 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
-        //
+        User::create($request->validated());
+        Flashdata::success_alert("Successfully to save new user.");
+        return redirect()->route('users.index');
     }
 
     /**
@@ -56,9 +60,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('pages.users.edit', compact('user'));
     }
 
     /**
@@ -68,9 +72,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $user->update($request->validated());
+        Flashdata::success_alert("Successfully to save user.");
+        return redirect()->route('users.index');
     }
 
     /**
@@ -79,8 +85,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        Flashdata::success_alert("Successfully to delete user.");
+        return redirect()->route('users.index');
     }
 }

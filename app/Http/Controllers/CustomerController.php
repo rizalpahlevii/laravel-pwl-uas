@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Flashdata;
-use App\Http\Requests\Customers\CreateCustomerRequest;
-use App\Http\Requests\Customers\UpdateCustomerRequest;
+use App\Http\Requests\Customers\{
+    CreateCustomerRequest,
+    UpdateCustomerRequest
+};
 use App\Models\Customer;
 use Illuminate\Http\Request;
 

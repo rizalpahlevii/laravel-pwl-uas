@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Flashdata;
+use App\Http\Requests\Products\{CreateProductRequest, UpdateProductRequest};
 use App\Models\Product;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -26,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.products.create');
     }
 
     /**
@@ -35,9 +36,11 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateProductRequest $request)
     {
-        //
+        Product::create($request->validated());
+        Flashdata::success_alert("Successfully to save new product.");
+        return redirect()->route('products.index');
     }
 
     /**
@@ -57,9 +60,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        return view('pages.products.edit', compact('product'));
     }
 
     /**
@@ -69,9 +72,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $product->update($request->validated());
+        Flashdata::success_alert("Successfully to save product.");
+        return redirect()->route('products.index');
     }
 
     /**
@@ -80,8 +85,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        Flashdata::success_alert("Successfully to delete product.");
+        return redirect()->route('products.index');
     }
 }
