@@ -33,7 +33,7 @@
                                     <td>
                                         <a href="{{ route('customers.edit',$product->id) }}"
                                             class="btn btn-warning text-light btn-sm">Edit</a>
-                                        <a href="{{ route('customers.edit',$product->id) }}"
+                                        <a href="{{ route('customers.destroy',$product->id) }}"
                                             class="btn btn-danger btn-sm">Delete</a>
                                     </td>
                                 </tr>
