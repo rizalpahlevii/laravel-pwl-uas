@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @include('partials.css')
-    <title>Hello, world!</title>
+    @include('partials.js')
+
+    <title>PWL UAS</title>
 </head>
 
 <body>
@@ -18,7 +20,6 @@
         @yield('content')
     </div>
 
-    @include('partials.js')
 
     @stack('script')
 </body>
