@@ -24,17 +24,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($customers as $product)
+
+                                @forelse ($customers as $customer)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->phone }}</td>
-                                    <td>{{ $product->address }}</td>
+                                    <td>{{$customers->firstItem()+$loop->index }}</td>
+                                    <td>{{ $customer->name }}</td>
+                                    <td>{{ $customer->phone }}</td>
+                                    <td>{{ $customer->address }}</td>
                                     <td>
-                                        <a href="{{ route('customers.edit',$product->id) }}"
+                                        <a href="{{ route('customers.edit',$customer->id) }}"
                                             class="btn btn-warning text-light btn-sm">Edit</a>
-                                        <a href="{{ route('customers.destroy',$product->id) }}"
-                                            class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="#" class="btn btn-danger btn-sm btn-delete" title="Hapus"><i
+                                                class="fa fa-trash"></i> Hapus</a>
+                                        <form action="{{ route('customers.destroy',$customer->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+
+                                        </form>
                                     </td>
                                 </tr>
                                 @empty
@@ -54,3 +60,17 @@
     </div>
 </div>
 @endsection
+
+
+@push('script')
+<script>
+    $(document).ready(function(){
+        $('.btn-delete').click(function (e) {
+            if (confirm('Are you sure you want to delete this data?')) {
+                $(this).siblings('form').submit();
+            }
+            return false;
+        });
+    });
+</script>
+@endpush

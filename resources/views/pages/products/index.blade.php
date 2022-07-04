@@ -26,19 +26,29 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                function rupiah($params){
+                                return "Rp " . number_format($params,2,',','.');
+                                }
+                                @endphp
                                 @forelse ($products as $product)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $products->firstItem()+$loop->index }}</td>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->price }}</td>
+                                    <td>{{ rupiah($product->price) }}</td>
                                     <td>{{ $product->category }}</td>
                                     <td>{{ $product->brand }}</td>
                                     <td>{{ $product->description }}</td>
                                     <td>
                                         <a href="{{ route('products.edit',$product->id) }}"
                                             class="btn btn-warning text-light btn-sm">Edit</a>
-                                        <a href="{{ route('products.edit',$product->id) }}"
-                                            class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="#" class="btn btn-danger btn-sm btn-delete" title="Hapus"><i
+                                                class="fa fa-trash"></i> Hapus</a>
+                                        <form action="{{ route('products.destroy',$product->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+
+                                        </form>
                                     </td>
                                 </tr>
                                 @empty
@@ -58,3 +68,16 @@
     </div>
 </div>
 @endsection
+
+@push('script')
+<script>
+    $(document).ready(function(){
+        $('.btn-delete').click(function (e) {
+            if (confirm('Are you sure you want to delete this data?')) {
+                $(this).siblings('form').submit();
+            }
+            return false;
+        });
+    });
+</script>
+@endpush

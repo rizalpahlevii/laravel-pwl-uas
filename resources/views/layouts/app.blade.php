@@ -19,6 +19,8 @@
     </div>
 
     @include('partials.js')
+
+    @stack('script')
 </body>
 
 </html>
